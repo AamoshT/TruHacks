@@ -2,17 +2,30 @@ import requests
 
 from flask import redirect, render_template, session
 from functools import wraps
+import random
 
 
-def apology(message, code=400):
-    """Render message as an apology to user."""
+def apology(code, message):
+    """
+    Render an apology page with a random cat background.
+    """
+    # List of cat image URLs
+    cat_images = [
+        "https://i.imgur.com/D0Wpl64.jpeg",
+        "https://i.imgur.com/tPhRO7R.jpeg",
+        "https://i.imgur.com/PQtdjJz.jpeg"
+    ]
+
+    # Randomly select one image from the list
+    random_cat = random.choice(cat_images)
 
     def escape(s):
         """
-        Escape special characters.
-
+        Escape special characters for memegen.link.
         https://github.com/jacebrowning/memegen#special-characters
         """
+        # Convert s to a string if it isn't already, default to empty string if None
+        s = str(s) if s is not None else ""
         for old, new in [
             ("-", "--"),
             (" ", "-"),
@@ -26,7 +39,16 @@ def apology(message, code=400):
             s = s.replace(old, new)
         return s
 
-    return render_template("apology.html", top=code, bottom=escape(message)), code
+    # Ensure code is a string too, since it’s used in the URL
+    code = str(code)
+
+    # Render the template with the random cat image
+    return render_template(
+        "apology.html",
+        top=code,
+        bottom=escape(message),
+        background=random_cat
+    ), code
 
 
 def login_required(f):
@@ -43,27 +65,3 @@ def login_required(f):
         return f(*args, **kwargs)
 
     return decorated_function
-
-
-def lookup(symbol):
-    """Look up quote for symbol."""
-    url = f"https://finance.cs50.io/quote?symbol={symbol.upper()}"
-    try:
-        response = requests.get(url)
-        response.raise_for_status()  # Raise an error for HTTP error responses
-        quote_data = response.json()
-        return {
-            "name": quote_data["companyName"],
-            "price": quote_data["latestPrice"],
-            "symbol": symbol.upper()
-        }
-    except requests.RequestException as e:
-        print(f"Request error: {e}")
-    except (KeyError, ValueError) as e:
-        print(f"Data parsing error: {e}")
-    return None
-
-
-def usd(value):
-    """Format value as USD."""
-    return f"${value:,.2f}"

@@ -1,27 +1,77 @@
-{% extends "layout.html" %}
+<!-- Video Background Container -->
+<div class="relative min-h-screen">
+    <!-- Video Element -->
+    <video autoplay muted loop playsinline class="fixed top-0 left-0 w-full h-full object-cover z-0"
+        id="background-video">
+        <source src="/static/video/background.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
 
-{% block title %}
+    {% extends "layout.html" %}
+
+    {% block title %}
     Register
-{% endblock %}
+    {% endblock %}
 
-{% block main %}
-    <h2 class="text-2xl font-bold text-blue-700 text-center mb-6">Register</h2>
+    {% block main %}
+        <!-- Overlay for better text readability -->
+        <div class="absolute top-0 left-0 w-full h-full bg-black bg-opacity-0 z-10"></div>
 
-    <div class="bg-white p-6 rounded-lg shadow-md max-w-md mx-auto">
-        <form action="/register" method="post">
-            <div class="mb-4">
-                <label for="username" class="block text-gray-700 font-semibold mb-2">Username</label>
-                <input type="text" id="username" name="username" class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" required>
+        <!-- Register Content -->
+        <div class="relative z-20 flex items-center justify-center min-h-screen">
+            <div class="container mx-auto p-6 max-w-md">
+                <h2
+                    class="text-2xl font-bold text-white text-center mb-6 transition-all duration-700 ease-in-out transform translate-y-10 opacity-0">
+                    Register</h2>
+        
+                <div
+                    class="bg-white bg-opacity-90 p-6 rounded-lg shadow-md opacity-0 transition-all duration-700 ease-in-out transform translate-y-10">
+                    <form action="/register" method="post">
+                        <div class="mb-4">
+                            <label for="username" class="block text-gray-700 font-semibold mb-2">Username</label>
+                            <input type="text" id="username" name="username"
+                                class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                                required>
+                        </div>
+                        <div class="mb-4">
+                            <label for="password" class="block text-gray-700 font-semibold mb-2">Password</label>
+                            <input type="password" id="password" name="password"
+                                class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                                required>
+                        </div>
+                        <div class="mb-4">
+                            <label for="confirmation" class="block text-gray-700 font-semibold mb-2">Confirm Password</label>
+                            <input type="password" id="confirmation" name="confirmation"
+                                class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                                required>
+                        </div>
+                        <button type="submit"
+                            class="w-full bg-green-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-green-700 transition duration-200">Register</button>
+                    </form>
+                </div>
             </div>
-            <div class="mb-4">
-                <label for="password" class="block text-gray-700 font-semibold mb-2">Password</label>
-                <input type="password" id="password" name="password" class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" required>
             </div>
-            <div class="mb-4">
-                <label for="confirmation" class="block text-gray-700 font-semibold mb-2">Confirm Password</label>
-                <input type="password" id="confirmation" name="confirmation" class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" required>
             </div>
-            <button type="submit" class="w-full bg-green-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-green-700 transition duration-200">Register</button>
-        </form>
-    </div>
+            
+            <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                    // Intersection Observer for fade-in animations
+                    const observer = new IntersectionObserver((entries) => {
+                        entries.forEach(entry => {
+                            if (entry.isIntersecting) {
+                                entry.target.classList.remove('opacity-0', 'translate-y-10');
+                                entry.target.classList.add('opacity-100', 'translate-y-0');
+                                observer.unobserve(entry.target);
+                            }
+                        });
+                    }, {
+                        threshold: 0.2
+                    });
+
+                    // Observe elements with transitions
+                    document.querySelectorAll('h2, .bg-white').forEach(element => {
+                        observer.observe(element);
+                    });
+                });
+            </script>
 {% endblock %}

@@ -7,5 +7,9 @@
 {% block main %}
     <!-- https://memegen.link/ -->
     <!-- https://knowyourmeme.com/memes/grumpy-cat -->
-    <img alt="{{ top }}" class="border img-fluid" src="https://api.memegen.link/images/custom/{{ top | urlencode }}/{{ bottom | urlencode }}.jpg?background=https://i.imgur.com/CsCgN7Ll.png&width=400" title="{{ top }}">
+    <div class="relative z-20 flex items-center justify-center min-h-screen">
+        <img alt="{{ top }}" class="border-2 border-gray-400 max-w-full h-auto rounded-lg shadow-lg"
+            src="https://api.memegen.link/images/custom/{{ top | urlencode }}/{{ bottom | urlencode }}.jpg?background={{ background | urlencode }}&width=800"
+            title="{{ top }}">
+    </div>
 {% endblock %}

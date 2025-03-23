@@ -5,7 +5,21 @@
 {% endblock %}
 
 {% block main %}
-    <h1 class="text-3xl font-bold text-blue-700 text-center mb-6">Your Carbon Footprint History</h1>
+<div class="fixed inset-0 w-full h-full overflow-hidden -z-10">
+    <div class="parallax-background absolute inset-0 w-[300%] h-full transition-transform duration-1000 ease-linear"
+        style="background-image: url('{{ url_for('static', filename='images/nature1.jpg') }}'), 
+                                url('{{ url_for('static', filename='images/nature2.jpg') }}'), 
+                                url('{{ url_for('static', filename='images/nature3.jpg') }}'); 
+                background-size: 33.33% 100%; 
+                background-position: 0 0, 33.33% 0, 66.66% 0;
+                background-repeat: repeat-x;" id="parallaxBg">
+    </div>
+    <!-- Semi-transparent overlay to ensure form readability -->
+    <div class="absolute inset-0 bg-gray-900/30"></div>
+</div>
+<h1
+    class="text-3xl font-bold text-white text-center mb-6 hover:text-green-800 hover:scale-105 transition-all duration-300 ease-in-out">
+    Your Carbon Footprint History</h1>
 
     <!-- Chart -->
     <div class="bg-white p-6 rounded-lg shadow-lg">

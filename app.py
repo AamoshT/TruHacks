@@ -1,4 +1,4 @@
-from flask import Flask, flash, redirect, render_template, request, session
+from flask import Flask, redirect, render_template, request, session
 import requests
 import os
 import datetime
@@ -6,7 +6,7 @@ from cs50 import SQL
 from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from helpers import apology, login_required, lookup, usd
+from helpers import apology, login_required
 from calc import calculate_footprint, predict_future, score_reduction, find_best_tip
 
 app = Flask(__name__)
