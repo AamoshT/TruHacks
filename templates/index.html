@@ -3,7 +3,7 @@
     Home
 {% endblock %}
 {% block main %}
-    <!-- Background parallax container -->
+    
     <div class="fixed inset-0 w-full h-full overflow-hidden -z-10">
         <div class="parallax-background absolute inset-0 w-[300%] h-full transition-transform duration-1000 ease-linear"
              style="background-image: url('{{ url_for('static', filename='images/nature1.jpg') }}'), 
@@ -14,11 +14,11 @@
                     background-repeat: repeat-x;"
              id="parallaxBg">
         </div>
-        <!-- Semi-transparent overlay to ensure form readability -->
+        
         <div class="absolute inset-0 bg-gray-900/30"></div>
     </div>
 
-    <!-- Foreground content -->
+    
     <div class="container mx-auto p-6 max-w-4xl relative z-10">
         <form method="POST" action="/calculate" class="bg-white/95 p-6 rounded-lg shadow-md mb-8 opacity-0 transition-all duration-700 ease-in-out transform translate-y-10" x-data="{meatVisible: false}">
             <div class="grid grid-cols-1 gap-4">
@@ -259,7 +259,7 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            // Intersection Observer for fade-in animations
+            
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
@@ -272,12 +272,12 @@
                 threshold: 0.2
             });
 
-            // Observe all elements with transitions
+            
             document.querySelectorAll('form, div.bg-white\\/95, h2').forEach(element => {
                 observer.observe(element);
             });
 
-            // Parallax scrolling effect
+            
             const parallaxBg = document.getElementById('parallaxBg');
             window.addEventListener('scroll', function() {
                 const scrollPosition = window.scrollY;
@@ -288,7 +288,7 @@
                 parallaxBg.style.transform = `translateX(${translateX}px)`;
             });
 
-            // Chart setup
+            
             {% if calculated %}
             const ctx = document.getElementById('futureChart');
             if (ctx) {
@@ -341,7 +341,7 @@
         });
     </script>
 
-    <!-- Add Alpine.js and Chart.js -->
+    
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 {% endblock %}
