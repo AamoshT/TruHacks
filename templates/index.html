@@ -1,0 +1,340 @@
+{% extends "layout.html" %}
+{% block title %}
+    Home
+{% endblock %}
+{% block main %}
+    <!-- Background parallax container -->
+    <div class="fixed inset-0 w-full h-full overflow-hidden -z-10">
+        <div class="parallax-background absolute inset-0 w-[300%] h-full transition-transform duration-1000 ease-linear"
+             style="background-image: url('{{ url_for('static', filename='images/nature1.jpg') }}'), 
+                                    url('{{ url_for('static', filename='images/nature2.jpg') }}'), 
+                                    url('{{ url_for('static', filename='images/nature3.jpg') }}'); 
+                    background-size: 33.33% 100%; 
+                    background-position: 0 0, 33.33% 0, 66.66% 0;
+                    background-repeat: repeat-x;"
+             id="parallaxBg">
+        </div>
+        <!-- Semi-transparent overlay to ensure form readability -->
+        <div class="absolute inset-0 bg-gray-900/30"></div>
+    </div>
+
+    <!-- Foreground content -->
+    <div class="container mx-auto p-6 max-w-4xl relative z-10">
+        <form method="POST" action="/calculate" class="bg-white/95 p-6 rounded-lg shadow-md mb-8 opacity-0 transition-all duration-700 ease-in-out transform translate-y-10" x-data="{meatVisible: false}">
+            <div class="grid grid-cols-1 gap-4">
+                <div>
+                    <label class="block text-gray-700 font-semibold mb-2">Where do you live?</label>
+                    <select name="location" required class="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 transition-all duration-300">
+                        <option value="us">USA</option>
+                        <option value="np">Nepal</option>
+                        <option value="de">Germany</option>
+                        <option value="in">India</option>
+                        <option value="ca">Canada</option>
+                        <option value="gb">United Kingdom</option>
+                        <option value="fr">France</option>
+                        <option value="es">Spain</option>
+                        <option value="it">Italy</option>
+                        <option value="jp">Japan</option>
+                        <option value="cn">China</option>
+                        <option value="au">Australia</option>
+                        <option value="br">Brazil</option>
+                        <option value="za">South Africa</option>
+                        <option value="mx">Mexico</option>
+                        <option value="ru">Russia</option>
+                        <option value="kr">South Korea</option>
+                        <option value="sa">Saudi Arabia</option>
+                        <option value="ar">Argentina</option>
+                        <option value="eg">Egypt</option>
+                        <option value="ae">United Arab Emirates</option>
+                        <option value="ch">Switzerland</option>
+                        <option value="se">Sweden</option>
+                        <option value="no">Norway</option>
+                        <option value="nl">Netherlands</option>
+                        <option value="pl">Poland</option>
+                        <option value="fi">Finland</option>
+                        <option value="be">Belgium</option>
+                        <option value="at">Austria</option>
+                        <option value="dk">Denmark</option>
+                        <option value="sg">Singapore</option>
+                        <option value="id">Indonesia</option>
+                        <option value="my">Malaysia</option>
+                        <option value="ph">Philippines</option>
+                        <option value="th">Thailand</option>
+                        <option value="vn">Vietnam</option>
+                        <option value="pk">Pakistan</option>
+                        <option value="bd">Bangladesh</option>
+                        <option value="lk">Sri Lanka</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-gray-700 font-semibold mb-2">What type of vehicle do you drive?</label>
+                    <select name="vehicle_type" required class="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 transition-all duration-300">
+                        <option value="petrol">Gas</option>
+                        <option value="electric">Electric</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-gray-700 font-semibold mb-2">How many miles do you drive each week?</label>
+                    <input type="number" name="miles" min="0" value="0" required class="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 transition-all duration-300">
+                </div>
+
+                <div>
+                    <label class="flex items-center text-gray-700 font-semibold mb-2">
+                        <input type="checkbox" name="consume_meat" x-model="meatVisible" class="mr-2 transition-all duration-300">
+                        Do you eat meat?
+                    </label>
+                    <div x-show="meatVisible" x-transition class="ml-6 space-y-2">
+                        <div>
+                            <label class="block text-gray-600">How many chicken meals do you have per week?</label>
+                            <input type="number" name="chicken_meals" min="0" value="0" class="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 transition-all duration-300">
+                        </div>
+                        <div>
+                            <label class="block text-gray-600">How many beef meals do you have per week?</label>
+                            <input type="number" name="beef_meals" min="0" value="0" class="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 transition-all duration-300">
+                        </div>
+                        <div>
+                            <label class="block text-gray-600">How many meals with other meats do you have per week?</label>
+                            <input type="number" name="other_meals" min="0" value="0" class="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 transition-all duration-300">
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-gray-700 font-semibold mb-2">How many kWh of electricity do you use per month?</label>
+                    <input type="number" name="electricity" min="0" value="0" required class="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 transition-all duration-300">
+                </div>
+
+                <div>
+                    <label class="block text-gray-700 font-semibold mb-2">Flight distance per year (miles)?</label>
+                    <input type="number" name="flight_km" min="0" value="0" required class="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 transition-all duration-300">
+                </div>
+
+                <div>
+                    <label class="block text-gray-700 font-semibold mb-2">Train distance per week (miles)?</label>
+                    <input type="number" name="train_km" min="0" value="0" required class="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 transition-all duration-300">
+                </div>
+
+                <button type="submit" class="w-full bg-green-600 text-white p-3 rounded-md hover:bg-green-700 transition-all duration-300 transform hover:scale-105">Calculate Carbon Footprint</button>
+            </div>
+        </form>
+
+        {% if calculated %}
+        <div class="bg-white/95 p-6 rounded-lg shadow-md mb-8 opacity-0 transition-all duration-700 ease-in-out transform translate-y-10 scale-95">
+            <h2 class="text-2xl font-bold text-green-700 mb-4 transition-all duration-500">Your Results</h2>
+            <div class="space-y-2">
+                <p class="transition-all duration-500"><span class="font-semibold">Current Footprint:</span> {{ current }} kg CO2/week</p>
+                <p class="transition-all duration-500"><span class="font-semibold">Climate Hero Score:</span> {{ score }}%</p>
+                <p class="transition-all duration-500"><span class="font-semibold">Tip:</span> {{ tip }}</p>
+            </div>
+            
+            </div>
+        </div>
+
+        <h2 class="text-2xl font-bold text-white mb-4 opacity-0 transition-all duration-700 ease-in-out transform translate-y-10">What If?</h2>
+        <form method="POST" action="/whatif" class="bg-white/95 p-6 rounded-lg shadow-md mb-8 opacity-0 transition-all duration-700 ease-in-out transform translate-y-10" x-data="{meatVisible: false}">
+            <input type="hidden" name="original_current" value="{{ current }}">
+            <input type="hidden" name="original_score" value="{{ score }}">
+            <input type="hidden" name="original_scenario" value="{{ scenario[0] }}">
+            <div class="grid grid-cols-1 gap-4">
+                <div>
+                    <label class="block text-gray-700 font-semibold mb-2">Where do you live?</label>
+                    <select name="location" required class="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 transition-all duration-300">
+                        <option value="us">USA</option>
+                        <option value="np">Nepal</option>
+                        <option value="de">Germany</option>
+                        <option value="in">India</option>
+                        <option value="ca">Canada</option>
+                        <option value="gb">United Kingdom</option>
+                        <option value="fr">France</option>
+                        <option value="es">Spain</option>
+                        <option value="it">Italy</option>
+                        <option value="jp">Japan</option>
+                        <option value="cn">China</option>
+                        <option value="au">Australia</option>
+                        <option value="br">Brazil</option>
+                        <option value="za">South Africa</option>
+                        <option value="mx">Mexico</option>
+                        <option value="ru">Russia</option>
+                        <option value="kr">South Korea</option>
+                        <option value="sa">Saudi Arabia</option>
+                        <option value="ar">Argentina</option>
+                        <option value="eg">Egypt</option>
+                        <option value="ae">United Arab Emirates</option>
+                        <option value="ch">Switzerland</option>
+                        <option value="se">Sweden</option>
+                        <option value="no">Norway</option>
+                        <option value="nl">Netherlands</option>
+                        <option value="pl">Poland</option>
+                        <option value="fi">Finland</option>
+                        <option value="be">Belgium</option>
+                        <option value="at">Austria</option>
+                        <option value="dk">Denmark</option>
+                        <option value="sg">Singapore</option>
+                        <option value="id">Indonesia</option>
+                        <option value="my">Malaysia</option>
+                        <option value="ph">Philippines</option>
+                        <option value="th">Thailand</option>
+                        <option value="vn">Vietnam</option>
+                        <option value="pk">Pakistan</option>
+                        <option value="bd">Bangladesh</option>
+                        <option value="lk">Sri Lanka</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-gray-700 font-semibold mb-2">Vehicle type?</label>
+                    <select name="vehicle_type" required class="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 transition-all duration-300">
+                        <option value="petrol">Petrol</option>
+                        <option value="electric">Electric</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-gray-700 font-semibold mb-2">Miles driven per week?</label>
+                    <input type="number" name="miles" min="0" value="0" required class="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 transition-all duration-300">
+                </div>
+
+                <div>
+                    <label class="flex items-center text-gray-700 font-semibold mb-2">
+                        <input type="checkbox" name="consume_meat" x-model="meatVisible" class="mr-2 transition-all duration-300">
+                        Do you consume meat?
+                    </label>
+                    <div x-show="meatVisible" x-transition class="ml-6 space-y-2">
+                        <div>
+                            <label class="block text-gray-600">Chicken meals per week:</label>
+                            <input type="number" name="chicken_meals" min="0" value="0" class="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 transition-all duration-300">
+                        </div>
+                        <div>
+                            <label class="block text-gray-600">Beef meals per week:</label>
+                            <input type="number" name="beef_meals" min="0" value="0" class="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 transition-all duration-300">
+                        </div>
+                        <div>
+                            <label class="block text-gray-600">Other meats per week:</label>
+                            <input type="number" name="other_meals" min="0" value="0" class="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 transition-all duration-300">
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-gray-700 font-semibold mb-2">Electricity (kWh) per month?</label>
+                    <input type="number" name="electricity" min="0" value="0" required class="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 transition-all duration-300">
+                </div>
+
+                <div>
+                    <label class="block text-gray-700 font-semibold mb-2">Flight distance per year (miles)?</label>
+                    <input type="number" name="flight_km" min="0" value="0" required class="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 transition-all duration-300">
+                </div>
+
+                <div>
+                    <label class="block text-gray-700 font-semibold mb-2">Train distance per week (miles)?</label>
+                    <input type="number" name="train_km" min="0" value="0" required class="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 transition-all duration-300">
+                </div>
+
+                <button type="submit" class="w-full bg-green-600 text-white p-3 rounded-md hover:bg-green-700 transition-all duration-300 transform hover:scale-105">What If?</button>
+            </div>
+        </form>
+
+        {% if whatif_current is defined %}
+        <div class="bg-white/95 p-6 rounded-lg shadow-md opacity-0 transition-all duration-700 ease-in-out transform translate-y-10 scale-95">
+            <h2 class="text-2xl font-bold text-green-700 mb-4 transition-all duration-500">What If Results</h2>
+            <div class="space-y-2">
+                <p class="transition-all duration-500"><span class="font-semibold">New Current Footprint:</span> {{ whatif_current }} kg CO2/week</p>
+                <p class="transition-all duration-500"><span class="font-semibold">New Climate Hero Score:</span> {{ whatif_score }}%</p>
+                <p class="transition-all duration-500"><span class="font-semibold">New Future (Month 12):</span> {{ whatif_future[-1] }} kg CO2/week</p>
+                <p class="transition-all duration-500"><span class="font-semibold">Score Difference:</span> {{ whatif_score - original_score }}%</p>
+            </div>
+        </div>
+        {% endif %}
+        {% endif %}
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Intersection Observer for fade-in animations
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.remove('opacity-0', 'translate-y-10', 'scale-95');
+                        entry.target.classList.add('opacity-100', 'translate-y-0', 'scale-100');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.2
+            });
+
+            // Observe all elements with transitions
+            document.querySelectorAll('form, div.bg-white\\/95, h2').forEach(element => {
+                observer.observe(element);
+            });
+
+            // Parallax scrolling effect
+            const parallaxBg = document.getElementById('parallaxBg');
+            window.addEventListener('scroll', function() {
+                const scrollPosition = window.scrollY;
+                const maxScroll = document.body.scrollHeight - window.innerHeight;
+                const scrollPercent = scrollPosition / maxScroll;
+                const maxTranslate = -((parallaxBg.offsetWidth - window.innerWidth) / 2); // Adjust for half the extra width
+                const translateX = scrollPercent * maxTranslate;
+                parallaxBg.style.transform = `translateX(${translateX}px)`;
+            });
+
+            // Chart setup
+            {% if calculated %}
+            const ctx = document.getElementById('futureChart');
+            if (ctx) {
+                const futureData = {{ future | tojson }};
+                const whatifData = {{ whatif_future | default([]) | tojson }};
+                const labels = Array.from({length: 12}, (_, i) => `Month ${i + 1}`);
+
+                new Chart(ctx.getContext('2d'), {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [
+                            {
+                                label: 'Current Future Footprint',
+                                data: futureData,
+                                borderColor: 'rgba(59, 130, 246, 0.8)',
+                                backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                                borderWidth: 2,
+                                fill: true
+                            },
+                            ...(whatifData.length > 0 ? [{
+                                label: 'What If Future Footprint',
+                                data: whatifData,
+                                borderColor: 'rgba(16, 185, 129, 0.8)',
+                                backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                                borderWidth: 2,
+                                fill: true
+                            }] : [])
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                title: { display: true, text: 'kg CO2/week' }
+                            },
+                            x: { title: { display: true, text: 'Months' } }
+                        },
+                        plugins: {
+                            legend: { display: true }
+                        }
+                    }
+                });
+            } else {
+                console.error('Chart canvas not found');
+            }
+            {% endif %}
+        });
+    </script>
+
+    <!-- Add Alpine.js and Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock %}
